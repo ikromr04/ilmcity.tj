@@ -26,14 +26,10 @@ class NewsTable
                     ->label('Создано')
                     ->date('d.m.Y')
                     ->toggleable(),
-                Fields::localeColumn(),
                 Fields::publishedColumn(),
             ])
             ->defaultSort('sort')
             ->reorderable('sort')
-            ->filters([
-                Fields::localeFilter(),
-            ])
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),

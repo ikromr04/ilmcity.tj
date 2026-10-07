@@ -13,11 +13,6 @@ class Partner extends Model
 
     protected $guarded = [];
 
-    public function isLocalized(): bool
-    {
-        return false;
-    }
-
     protected function logoUrl(): Attribute
     {
         return Attribute::get(fn () => Helper::media($this->logo));

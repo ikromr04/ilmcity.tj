@@ -29,7 +29,7 @@ class ContactRequestForm
                         Select::make('course_id')
                             ->label('Курс')
                             ->relationship('course', 'title')
-                            ->searchable()
+                            ->getOptionLabelFromRecordUsing(fn ($record) => $record->tr('title', 'ru'))
                             ->preload(),
                         Textarea::make('message')
                             ->label('Сообщение')

@@ -28,15 +28,12 @@ class CoursesTable
                     ->label('Преподаватели')
                     ->counts('employees')
                     ->badge(),
-                Fields::localeColumn(),
                 Fields::publishedColumn(),
             ])
             ->defaultSort('sort')
             ->reorderable('sort')
-            ->filters([
-                Fields::localeFilter(),
-            ])
             ->recordActions([
+                Fields::viewOnSite('courses.show'),
                 EditAction::make(),
                 DeleteAction::make(),
             ])

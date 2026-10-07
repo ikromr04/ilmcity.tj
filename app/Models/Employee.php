@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Role;
 use App\Helper;
+use App\Models\Concerns\HasTranslations;
 use App\Models\Concerns\Publishable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -12,9 +13,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Employee extends Model
 {
-    use Publishable;
+    use HasTranslations, Publishable;
 
     protected $guarded = [];
+
+    /** @var list<string> */
+    protected array $translatable = ['name', 'position', 'bio', 'video_title'];
 
     protected function casts(): array
     {
@@ -36,5 +40,10 @@ class Employee extends Model
     protected function photoUrl(): Attribute
     {
         return Attribute::get(fn () => Helper::media($this->photo, 'images/teacher.png'));
+    }
+
+    protected function videoCoverUrl(): Attribute
+    {
+        return Attribute::get(fn () => Helper::media($this->video_cover, 'images/courses.png'));
     }
 }

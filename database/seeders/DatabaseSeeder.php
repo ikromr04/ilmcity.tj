@@ -20,6 +20,6 @@ class DatabaseSeeder extends Seeder
             'password' => env('ADMIN_PASSWORD', 'iyuafvdbn98s'),
         ]);
 
-        $this->call(ContentSeeder::class);
+        $this->call([ContentSeeder::class, TajikTranslationSeeder::class]);
     }
 }

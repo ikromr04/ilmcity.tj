@@ -31,7 +31,7 @@ class Setting extends Model
     public static function trans(string $key, mixed $default = null): mixed
     {
         return static::get($key.'.'.app()->getLocale())
-            ?? static::get($key.'.'.config('app.locale'), $default);
+            ?? static::get($key.'.'.config('app.fallback_locale'), $default);
     }
 
     /** @return array<string, mixed> */

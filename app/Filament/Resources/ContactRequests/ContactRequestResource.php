@@ -37,7 +37,15 @@ class ContactRequestResource extends Resource
 
     public static function getNavigationBadgeColor(): ?string
     {
-        return 'warning';
+        return 'danger';
+    }
+
+    /**
+     * Requests come only from the site forms.
+     */
+    public static function canCreate(): bool
+    {
+        return false;
     }
 
     public static function form(Schema $schema): Schema

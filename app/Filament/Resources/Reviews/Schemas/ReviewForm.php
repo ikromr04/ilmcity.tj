@@ -16,29 +16,27 @@ class ReviewForm
         return $schema
             ->columns(3)
             ->components([
-                Group::make([
-                    Section::make('Отзыв')
-                        ->schema([
-                            TextInput::make('title')
+                Section::make()
+                    ->schema([
+                        Fields::translations(fn (string $locale, bool $default) => [
+                            TextInput::make("title.{$locale}")
                                 ->label('Заголовок')
-                                ->required()
+                                ->required($default)
                                 ->maxLength(255),
-                            Textarea::make('text')
-                                ->label('Текст')
-                                ->required()
+                            Textarea::make("text.{$locale}")
+                                ->label('Текст отзыва')
+                                ->required($default)
                                 ->rows(6),
-                        ]),
-                    Section::make('Автор')
-                        ->schema([
-                            TextInput::make('author_name')
-                                ->label('Имя')
-                                ->required(),
-                            TextInput::make('author_caption')
-                                ->label('Подпись')
+                            TextInput::make("author_name.{$locale}")
+                                ->label('Автор')
+                                ->required($default)
+                                ->maxLength(255),
+                            TextInput::make("author_caption.{$locale}")
+                                ->label('Подпись автора')
                                 ->placeholder('Мама Арнольда'),
-                        ])
-                        ->columns(2),
-                ])->columnSpan(['lg' => 2]),
+                        ]),
+                    ])
+                    ->columnSpan(['lg' => 2]),
 
                 Group::make([
                     Fields::meta(),

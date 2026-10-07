@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Shared behaviour for content managed in the admin panel:
- * publish toggle, manual sorting and (optionally) per-locale records.
+ * publish toggle and manual sorting.
  */
 trait Publishable
 {
@@ -16,20 +16,11 @@ trait Publishable
         $this->mergeCasts(['is_published' => 'boolean']);
     }
 
-    public function isLocalized(): bool
-    {
-        return true;
-    }
-
     #[Scope]
     protected function visible(Builder $query): void
     {
         $query->where($this->qualifyColumn('is_published'), true)
             ->orderBy($this->qualifyColumn('sort'))
             ->orderBy($this->qualifyColumn('id'));
-
-        if ($this->isLocalized()) {
-            $query->where($this->qualifyColumn('locale'), app()->getLocale());
-        }
     }
 }

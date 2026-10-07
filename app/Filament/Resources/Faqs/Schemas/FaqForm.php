@@ -18,14 +18,16 @@ class FaqForm
             ->components([
                 Section::make()
                     ->schema([
-                        TextInput::make('question')
-                            ->label('Вопрос')
-                            ->required()
-                            ->maxLength(255),
-                        Textarea::make('answer')
-                            ->label('Ответ')
-                            ->required()
-                            ->rows(5),
+                        Fields::translations(fn (string $locale, bool $default) => [
+                            TextInput::make("question.{$locale}")
+                                ->label('Вопрос')
+                                ->required($default)
+                                ->maxLength(255),
+                            Textarea::make("answer.{$locale}")
+                                ->label('Ответ')
+                                ->required($default)
+                                ->rows(5),
+                        ]),
                     ])
                     ->columnSpan(['lg' => 2]),
 

@@ -15,7 +15,7 @@ class Helper
     {
         $locale = request()->segment(1);
         $available = config('app.available_locales');
-        $default = config('app.locale');
+        $default = config('app.fallback_locale');
 
         if ($locale !== $default && in_array($locale, $available)) {
             app()->setLocale($locale);
@@ -26,6 +26,25 @@ class Helper
         app()->setLocale($default);
 
         return null;
+    }
+
+    /**
+     * Picks the value for the given (or current) locale from a ['ru' => ..., 'tj' => ...] array,
+     * falling back to the default locale and then to any filled value.
+     */
+    public static function tr(mixed $value, ?string $locale = null): ?string
+    {
+        if (! is_array($value)) {
+            return $value === null ? null : (string) $value;
+        }
+
+        foreach ([$locale ?? app()->getLocale(), config('app.fallback_locale')] as $candidate) {
+            if (filled($value[$candidate] ?? null)) {
+                return $value[$candidate];
+            }
+        }
+
+        return collect($value)->first(fn ($item) => filled($item));
     }
 
     /**

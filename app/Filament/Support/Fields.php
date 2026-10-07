@@ -3,28 +3,37 @@
 namespace App\Filament\Support;
 
 use App\Enums\Locale;
+use Closure;
+use Filament\Actions\Action;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
-use Filament\Tables\Filters\SelectFilter;
 
 /**
- * Reusable form fields, columns and filters shared by the content resources.
+ * Reusable form fields and columns shared by the content resources.
  */
 class Fields
 {
-    public static function locale(): Select
+    /**
+     * One tab per site language for translatable JSON attributes.
+     *
+     * The closure receives the locale and whether it is the default one and returns
+     * the fields of that tab, e.g. TextInput::make("title.{$locale}")->required($default).
+     */
+    public static function translations(Closure $fields, string $label = 'Переводы'): Tabs
     {
-        return Select::make('locale')
-            ->label('Язык')
-            ->options(Locale::class)
-            ->default(Locale::default()->value)
-            ->selectablePlaceholder(false)
-            ->required();
+        return Tabs::make($label)
+            ->tabs(array_map(
+                fn (Locale $locale) => Tab::make($locale->getLabel())
+                    ->schema($fields($locale->value, $locale === Locale::default())),
+                Locale::cases(),
+            ))
+            ->columnSpanFull();
     }
 
     public static function published(): Toggle
@@ -35,15 +44,14 @@ class Fields
     }
 
     /**
-     * Sidebar section with language + publish toggle.
+     * Sidebar section with the publish toggle.
      */
-    public static function meta(bool $localized = true): Section
+    public static function meta(): Section
     {
         return Section::make('Публикация')
-            ->schema(array_filter([
-                $localized ? static::locale() : null,
+            ->schema([
                 static::published(),
-            ]));
+            ]);
     }
 
     public static function image(string $name, string $directory, string $label = 'Изображение'): FileUpload
@@ -57,15 +65,6 @@ class Fields
             ->maxSize(10240);
     }
 
-    public static function localeColumn(): TextColumn
-    {
-        return TextColumn::make('locale')
-            ->label('Язык')
-            ->badge()
-            ->formatStateUsing(fn (string $state) => strtoupper($state))
-            ->color(fn (string $state) => $state === 'tj' ? 'success' : 'info');
-    }
-
     public static function publishedColumn(): ToggleColumn
     {
         return ToggleColumn::make('is_published')->label('Опубл.');
@@ -76,10 +75,16 @@ class Fields
         return ImageColumn::make($name)->label($label)->disk('public');
     }
 
-    public static function localeFilter(): SelectFilter
+    /**
+     * Table action opening the record's public page in a new tab.
+     */
+    public static function viewOnSite(string $route): Action
     {
-        return SelectFilter::make('locale')
-            ->label('Язык')
-            ->options(Locale::class);
+        return Action::make('view')
+            ->label('На сайте')
+            ->icon(Heroicon::OutlinedArrowTopRightOnSquare)
+            ->color('gray')
+            ->url(fn ($record) => route($route, $record))
+            ->openUrlInNewTab();
     }
 }

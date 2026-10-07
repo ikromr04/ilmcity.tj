@@ -1,0 +1,1 @@
+<span class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center size-[19px] rounded-full bg-red-500 text-white text-xs font-bold leading-none pointer-events-none" aria-hidden="true">!</span>

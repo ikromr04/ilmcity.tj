@@ -4,7 +4,7 @@
 
 @section('content')
     <main class="courses-page container">
-        <h1 class="text-lg uppercase font-semibold leading-[1.2] mt-11 mb-6 md:mt-16 md:mb-8 xl:mt-20 xl:mb-10 md:text-[32px] xl:text-[48px]">
+        <h1 class="title-1">
             {{ __('Профессионалы, которые делают обучение увлекательным!') }}
         </h1>
 
@@ -12,8 +12,8 @@
 
         @foreach ([[__('Администрация'), $admins], [__('Наши преподаватели'), $teachers]] as [$title, $employees])
             @if ($employees->isNotEmpty())
-                <section class="mb-8 md:mb-16 xl:mb-20">
-                    <h2 class="text-lg mt-0 font-semibold mb-6 leading-[1.2] md:text-[32px] md:mb-8 xl:text-[40px] xl:mb-10">
+                <section class="section">
+                    <h2 class="title-2">
                         {{ $title }}
                     </h2>
 

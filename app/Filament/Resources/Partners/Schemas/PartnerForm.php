@@ -31,7 +31,7 @@ class PartnerForm
                     ->columnSpan(['lg' => 2]),
 
                 Group::make([
-                    Fields::meta(localized: false),
+                    Fields::meta(),
                 ])->columnSpan(['lg' => 1]),
             ]);
     }

@@ -22,14 +22,10 @@ class ServicesTable
                     ->searchable()
                     ->weight('medium')
                     ->wrap(),
-                Fields::localeColumn(),
                 Fields::publishedColumn(),
             ])
             ->defaultSort('sort')
             ->reorderable('sort')
-            ->filters([
-                Fields::localeFilter(),
-            ])
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),

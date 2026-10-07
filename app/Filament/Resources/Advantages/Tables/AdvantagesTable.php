@@ -21,14 +21,10 @@ class AdvantagesTable
                     ->searchable()
                     ->weight('medium')
                     ->description(fn ($record) => str($record->text)->limit(90)),
-                Fields::localeColumn(),
                 Fields::publishedColumn(),
             ])
             ->defaultSort('sort')
             ->reorderable('sort')
-            ->filters([
-                Fields::localeFilter(),
-            ])
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),

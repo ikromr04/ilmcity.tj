@@ -11,7 +11,7 @@ enum Locale: string implements HasLabel
 
     public static function default(): self
     {
-        return self::tryFrom(config('app.locale')) ?? self::RU;
+        return self::tryFrom(config('app.fallback_locale')) ?? self::RU;
     }
 
     public static function values(): array

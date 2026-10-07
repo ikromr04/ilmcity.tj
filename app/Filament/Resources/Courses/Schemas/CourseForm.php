@@ -19,59 +19,66 @@ class CourseForm
             ->columns(3)
             ->components([
                 Group::make([
-                    Section::make('Карточка курса')
-                        ->description('Отображается в списках курсов на главной и на странице «Курсы».')
-                        ->schema([
-                            TextInput::make('title')
-                                ->label('Название')
-                                ->required()
-                                ->maxLength(255),
-                            Textarea::make('description')
-                                ->label('Краткое описание')
-                                ->rows(3),
-                        ]),
+                    Fields::translations(fn (string $locale, bool $default) => [
+                        Section::make('Карточка курса')
+                            ->description('Отображается в списках курсов на главной и на странице «Курсы».')
+                            ->schema([
+                                TextInput::make("title.{$locale}")
+                                    ->label('Название')
+                                    ->required($default)
+                                    ->maxLength(255),
+                                Textarea::make("description.{$locale}")
+                                    ->label('Краткое описание')
+                                    ->rows(3),
+                            ]),
 
-                    Section::make('Баннер')
-                        ->schema([
-                            Fields::image('banner', 'courses', 'Изображение баннера')
-                                ->helperText('Рекомендуемый размер: 1290×572')
-                                ->columnSpanFull(),
-                            TextInput::make('banner_title')
-                                ->label('Заголовок баннера')
-                                ->placeholder('Подготовка к школе для детей с 4 лет')
-                                ->columnSpanFull(),
-                            Textarea::make('banner_text')
-                                ->label('Текст баннера')
-                                ->rows(3)
-                                ->columnSpanFull(),
-                            TextInput::make('price')
-                                ->label('Цена')
-                                ->placeholder('150 сомони в месяц'),
-                            TextInput::make('duration')
-                                ->label('Длительность')
-                                ->placeholder('6 месяцев'),
-                        ])
-                        ->columns(2)
-                        ->collapsible(),
+                        Section::make('Баннер')
+                            ->schema([
+                                TextInput::make("banner_title.{$locale}")
+                                    ->label('Заголовок баннера')
+                                    ->placeholder('Подготовка к школе для детей с 4 лет')
+                                    ->columnSpanFull(),
+                                Textarea::make("banner_text.{$locale}")
+                                    ->label('Текст баннера')
+                                    ->rows(3)
+                                    ->columnSpanFull(),
+                                TextInput::make("price.{$locale}")
+                                    ->label('Цена')
+                                    ->placeholder('150 сомони в месяц'),
+                                TextInput::make("duration.{$locale}")
+                                    ->label('Длительность')
+                                    ->placeholder('6 месяцев'),
+                            ])
+                            ->columns(2)
+                            ->collapsible(),
 
-                    Section::make('Подробное описание')
+                        Section::make('Подробное описание')
+                            ->schema([
+                                TextInput::make("content_title.{$locale}")
+                                    ->label('Заголовок раздела')
+                                    ->placeholder('Подарите ребенку яркое будущее с нашими курсами!'),
+                            ])
+                            ->collapsible(),
+                    ], 'Тексты'),
+
+                    Section::make('Блоки страницы курса')
+                        ->description('Карточки с картинкой и списком (например «В программе», «Расписание»).')
                         ->schema([
-                            TextInput::make('content_title')
-                                ->label('Заголовок раздела')
-                                ->placeholder('Подарите ребенку яркое будущее с нашими курсами!'),
                             Repeater::make('blocks')
-                                ->label('Блоки')
+                                ->hiddenLabel()
                                 ->schema([
                                     Fields::image('image', 'courses/blocks'),
-                                    TextInput::make('title')
-                                        ->label('Заголовок')
-                                        ->required(),
-                                    Textarea::make('items')
-                                        ->label('Пункты списка')
-                                        ->helperText('Каждый пункт — с новой строки')
-                                        ->rows(5),
+                                    Fields::translations(fn (string $locale, bool $default) => [
+                                        TextInput::make("title.{$locale}")
+                                            ->label('Заголовок')
+                                            ->required($default),
+                                        Textarea::make("items.{$locale}")
+                                            ->label('Пункты списка')
+                                            ->helperText('Каждый пункт — с новой строки')
+                                            ->rows(5),
+                                    ]),
                                 ])
-                                ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
+                                ->itemLabel(fn (array $state): ?string => $state['title']['ru'] ?? null)
                                 ->addActionLabel('Добавить блок')
                                 ->collapsible()
                                 ->grid(2)
@@ -82,14 +89,20 @@ class CourseForm
 
                 Group::make([
                     Fields::meta(),
+                    Section::make('Баннер')
+                        ->schema([
+                            Fields::image('banner', 'courses', 'Изображение баннера')
+                                ->hiddenLabel()
+                                ->helperText('Рекомендуемый размер: 1290×572'),
+                        ]),
                     Section::make('Преподаватели')
                         ->schema([
                             Select::make('employees')
                                 ->hiddenLabel()
                                 ->relationship('employees', 'name')
+                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->tr('name', 'ru'))
                                 ->multiple()
-                                ->preload()
-                                ->searchable(),
+                                ->preload(),
                         ]),
                 ])->columnSpan(['lg' => 1]),
             ]);

@@ -4,14 +4,14 @@
 
 @section('content')
     <main class="courses-page container">
-        <h1 class="text-lg uppercase font-semibold leading-[1.2] mt-11 mb-6 md:mt-16 md:mb-8 xl:mt-20 xl:mb-10 md:text-[32px] xl:text-[48px]">
+        <h1 class="title-1">
             {{ __('Дайте ребенку шанс на успешное будущее с') }}
             <x-brand />
             !
         </h1>
 
         <x-banner :image="asset('images/courses.png')" alt="Courses">
-            <h2 class="text-lg font-semibold mt-0 mb-3 leading-[1.2]">
+            <h2 class="text-lg font-semibold mt-0 mb-3 leading-[1.2] xl:text-[20px] 2xl:text-[24px] 2xl:mb-4">
                 {{ __('Ищете курсы, которые раскроют лучшие качества вашего ребенка?') }}
             </h2>
 
@@ -21,8 +21,8 @@
         </x-banner>
 
         @if ($courses->isNotEmpty())
-            <section class="mb-8 md:mb-16 xl:mb-20">
-                <h2 class="text-lg mt-0 font-semibold mb-6 leading-[1.2] md:text-[32px] md:mb-8 xl:text-[40px] xl:mb-10">
+            <section class="section">
+                <h2 class="title-2">
                     {{ __('Инвестируйте в будущее вашего ребенка с нами!') }}
                 </h2>
 

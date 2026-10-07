@@ -21,14 +21,10 @@ class FaqsTable
                     ->searchable()
                     ->weight('medium')
                     ->description(fn ($record) => str($record->answer)->limit(90)),
-                Fields::localeColumn(),
                 Fields::publishedColumn(),
             ])
             ->defaultSort('sort')
             ->reorderable('sort')
-            ->filters([
-                Fields::localeFilter(),
-            ])
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),

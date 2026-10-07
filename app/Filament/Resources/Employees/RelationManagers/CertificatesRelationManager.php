@@ -27,14 +27,14 @@ class CertificatesRelationManager extends RelationManager
             ->components([
                 Fields::image('image', 'certificates')
                     ->columnSpanFull(),
-                TextInput::make('title')
-                    ->label('Название')
-                    ->required()
-                    ->columnSpanFull(),
-                Textarea::make('description')
-                    ->label('Описание')
-                    ->rows(3)
-                    ->columnSpanFull(),
+                Fields::translations(fn (string $locale, bool $default) => [
+                    TextInput::make("title.{$locale}")
+                        ->label('Название')
+                        ->required($default),
+                    Textarea::make("description.{$locale}")
+                        ->label('Описание')
+                        ->rows(3),
+                ]),
             ]);
     }
 

@@ -18,14 +18,16 @@ class ServiceForm
             ->components([
                 Section::make()
                     ->schema([
-                        TextInput::make('title')
-                            ->label('Заголовок')
-                            ->required()
-                            ->maxLength(255),
-                        Textarea::make('text')
-                            ->label('Текст')
-                            ->required()
-                            ->rows(6),
+                        Fields::translations(fn (string $locale, bool $default) => [
+                            TextInput::make("title.{$locale}")
+                                ->label('Заголовок')
+                                ->required($default)
+                                ->maxLength(255),
+                            Textarea::make("text.{$locale}")
+                                ->label('Текст')
+                                ->required($default)
+                                ->rows(6),
+                        ]),
                     ])
                     ->columnSpan(['lg' => 2]),
 

@@ -32,18 +32,17 @@ class EmployeesTable
                     ->counts('certificates')
                     ->badge()
                     ->color('gray'),
-                Fields::localeColumn(),
                 Fields::publishedColumn(),
             ])
             ->defaultSort('sort')
             ->reorderable('sort')
             ->filters([
-                Fields::localeFilter(),
                 SelectFilter::make('role')
                     ->label('Раздел')
                     ->options(Role::class),
             ])
             ->recordActions([
+                Fields::viewOnSite('employees.show'),
                 EditAction::make(),
                 DeleteAction::make(),
             ])

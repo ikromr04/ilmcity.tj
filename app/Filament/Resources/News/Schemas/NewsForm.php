@@ -18,13 +18,15 @@ class NewsForm
             ->components([
                 Section::make()
                     ->schema([
-                        TextInput::make('title')
-                            ->label('Заголовок')
-                            ->required()
-                            ->maxLength(255),
-                        Textarea::make('excerpt')
-                            ->label('Текст')
-                            ->rows(4),
+                        Fields::translations(fn (string $locale, bool $default) => [
+                            TextInput::make("title.{$locale}")
+                                ->label('Заголовок')
+                                ->required($default)
+                                ->maxLength(255),
+                            Textarea::make("excerpt.{$locale}")
+                                ->label('Текст')
+                                ->rows(4),
+                        ]),
                     ])
                     ->columnSpan(['lg' => 2]),
 

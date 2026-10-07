@@ -24,12 +24,12 @@
 
 @section('content')
   <main class="courses-page container">
-    <h1 class="text-lg uppercase font-semibold leading-[1.2] mt-11 mb-6 md:mt-16 md:mb-8 xl:mt-20 xl:mb-10 md:text-[32px] xl:text-[48px]">
+    <h1 class="title-1">
       {{ __('ВЕСЕННИЙ, ЛЕТНИЙ, ОСЕННИЙ И ЗИМНИЙ ЛАГЕРЬ ДЛЯ ДЕТЕЙ 7-13 ЛЕТ') }}
     </h1>
 
     <x-banner :image="asset('images/camp.png')" alt="Camp">
-      <h2 class="text-lg font-semibold mt-0 mb-3 leading-[1.2]">
+      <h2 class="text-lg font-semibold mt-0 mb-3 leading-[1.2] xl:text-[20px] 2xl:text-[24px] 2xl:mb-4">
         {{ __('Детский лагерь IlmCity – это увлекательное путешествие в мир знаний, творчества и веселья!') }}
       </h2>
 
@@ -38,22 +38,22 @@
       </p>
     </x-banner>
 
-    <section class="mb-8 md:mb-16 xl:mb-20">
-      <h2 class="text-lg mt-0 font-semibold mb-6 leading-[1.2] md:text-[32px] md:mb-8 xl:text-[40px] xl:mb-10">
+    <section class="section">
+      <h2 class="title-2">
         {{ __('Что ждет вашего ребенка в лагере IlmCity?') }}
       </h2>
 
-      <ul class="list-none p-0 m-0 flex flex-col gap-2 xl:grid xl:grid-cols-2 xl:gap-4 xl:bg-transparent xl:p-0 xl:shadow-none xl:border-none">
+      <ul class="list-none p-0 m-0 flex flex-col gap-3 md:grid md:grid-cols-2 xl:gap-4">
         @foreach ($features as $feature)
           <li>
-            <article class="flex flex-col p-6 rounded-2xl border border-gray-200 shadow">
-              <img class="flex w-full object-cover mb-4 rounded-xl" src="{{ asset($feature['image']) }}" width="306" height="256" alt="{{ $feature['title'] }}">
+            <article class="card h-full bg-gray-50">
+              <img class="card-image aspect-[573/290]" src="{{ asset($feature['image']) }}" width="306" height="256" alt="{{ $feature['title'] }}">
 
-              <h2 class="text-lg w-full font-semibold flex justify-between items-center border-b border-gray-400 pb-4 mt-0 mb-4 leading-[1.2]">
+              <h3 class="card-title">
                 {{ $feature['title'] }}
-              </h2>
+              </h3>
 
-              <p class="m-0 xl:text-[20px]">
+              <p class="card-text">
                 {{ $feature['text'] }}
               </p>
             </article>
@@ -61,18 +61,18 @@
         @endforeach
       </ul>
 
-      <ul class="list-none p-0 m-0 mt-10 flex flex-col gap-2 xl:grid xl:grid-cols-3 xl:gap-4 md:grid md:grid-cols-2 xl:bg-transparent xl:p-0 xl:shadow-none xl:border-none">
+      <ul class="list-none p-0 m-0 mt-3 flex flex-col gap-3 md:grid md:grid-cols-2 xl:grid-cols-3 xl:gap-4 xl:mt-11">
         @foreach ($activities as [$title, $text])
           <li>
-            <article class="flex items-center justify-between bg-yellow-50 rounded-[20px] border border-gray-200 shadow p-6 flex-col">
-              <h2 class="text-lg font-semibold md:text-lg flex items-center justify-between xl:text-[20px] w-full m-0 pb-5 border-b xl:border-gray-400 mb-5">
+            <article class="card h-full bg-yellow-50">
+              <h3 class="card-title xl:min-h-[58px]">
                 {{ $title }}
-                <svg width="51" height="44">
+                <svg class="shrink-0" width="51" height="44">
                   <use xlink:href="#chat-bubble" />
                 </svg>
-              </h2>
+              </h3>
 
-              <p class="mt-0 xl:mb-5 text-lg">
+              <p class="card-text">
                 {{ $text }}
               </p>
             </article>
@@ -81,26 +81,26 @@
       </ul>
     </section>
 
-    <section class="mb-8 md:mb-16 xl:mb-20">
-      <h2 class="text-lg mt-0 font-semibold mb-6 leading-[1.2] md:text-[32px] md:mb-8 xl:text-[40px] xl:mb-10">
+    <section class="section">
+      <h2 class="title-2">
         {{ __('Лагерь с заботой: трехразовое питание и комфортная атмосфера!') }}
       </h2>
 
-      <ul class="list-none p-0 m-0 flex flex-col gap-2 xl:grid xl:grid-cols-2 xl:gap-4 xl:bg-transparent xl:p-0 xl:shadow-none xl:border-none">
+      <ul class="list-none p-0 m-0 flex flex-col gap-3 md:grid md:grid-cols-2 xl:gap-4">
         @foreach ($meals as $meal)
           <li>
-            <article class="flex flex-col p-6 rounded-2xl border border-gray-200 shadow">
-              <img class="flex w-full object-cover mb-4 rounded-xl" src="{{ asset($meal['image']) }}" width="306" height="256" alt="{{ $meal['title'] }}">
+            <article class="card h-full bg-gray-50">
+              <img class="card-image aspect-[573/290]" src="{{ asset($meal['image']) }}" width="306" height="256" alt="{{ $meal['title'] }}">
 
-              <h2 class="text-lg w-full font-semibold flex justify-between items-center border-b border-gray-400 pb-4 mt-0 mb-4 leading-[1.2]">
+              <h3 class="card-title">
                 {{ $meal['title'] }}
-              </h2>
+              </h3>
 
-              <p class="m-0 xl:text-[20px]">
+              <p class="card-text">
                 {{ $meal['text'] }}
               </p>
 
-              <div class="flex p-3 bg-yellow-300 rounded-lg w-max font-semibold mt-6">
+              <div class="btn btn-yellow cursor-auto hover:shadow mt-6">
                 {{ $meal['price'] }}
               </div>
             </article>

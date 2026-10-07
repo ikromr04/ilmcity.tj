@@ -31,15 +31,12 @@ class GalleriesTable
                     ->label('Дата')
                     ->date('d.m.Y')
                     ->sortable(),
-                Fields::localeColumn(),
                 Fields::publishedColumn(),
             ])
             ->defaultSort('sort')
             ->reorderable('sort')
-            ->filters([
-                Fields::localeFilter(),
-            ])
             ->recordActions([
+                Fields::viewOnSite('galleries.show'),
                 EditAction::make(),
                 DeleteAction::make(),
             ])

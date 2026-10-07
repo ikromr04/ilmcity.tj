@@ -19,38 +19,65 @@ class EmployeeForm
             ->columns(3)
             ->components([
                 Group::make([
-                    Section::make('Основное')
-                        ->schema([
-                            TextInput::make('name')
-                                ->label('ФИО')
-                                ->required()
-                                ->maxLength(255),
-                            TextInput::make('position')
-                                ->label('Должность / предмет')
-                                ->placeholder('Английский язык'),
-                            Select::make('role')
-                                ->label('Раздел')
-                                ->options(Role::class)
-                                ->default(Role::Teacher->value)
-                                ->selectablePlaceholder(false)
-                                ->required(),
-                        ])
-                        ->columns(2),
+                    Fields::translations(fn (string $locale, bool $default) => [
+                        Section::make('Основное')
+                            ->schema([
+                                TextInput::make("name.{$locale}")
+                                    ->label('ФИО')
+                                    ->required($default)
+                                    ->maxLength(255),
+                                TextInput::make("position.{$locale}")
+                                    ->label('Должность / предмет')
+                                    ->placeholder('Английский язык'),
+                            ])
+                            ->columns(2),
 
-                    Section::make('Биография')
+                        Section::make('Биография')
+                            ->schema([
+                                RichEditor::make("bio.{$locale}")
+                                    ->hiddenLabel()
+                                    ->toolbarButtons([
+                                        ['bold', 'italic', 'underline', 'link'],
+                                        ['bulletList', 'orderedList'],
+                                        ['undo', 'redo'],
+                                    ]),
+                            ]),
+
+                        Section::make('Видео')
+                            ->description('Блок с видео внизу страницы сотрудника. Показывается, если указана ссылка.')
+                            ->schema([
+                                TextInput::make("video_title.{$locale}")
+                                    ->label('Заголовок блока')
+                                    ->placeholder('Тураева М. Уроки в начальной школе.')
+                                    ->maxLength(255),
+                            ])
+                            ->collapsible(),
+                    ], 'Тексты'),
+
+                    Section::make('Видео')
                         ->schema([
-                            RichEditor::make('bio')
-                                ->hiddenLabel()
-                                ->toolbarButtons([
-                                    ['bold', 'italic', 'underline', 'link'],
-                                    ['bulletList', 'orderedList'],
-                                    ['undo', 'redo'],
-                                ]),
-                        ]),
+                            TextInput::make('video_url')
+                                ->label('Ссылка на видео')
+                                ->url()
+                                ->placeholder('https://www.youtube.com/watch?v=...')
+                                ->maxLength(255),
+                            Fields::image('video_cover', 'employees/video', 'Обложка')
+                                ->helperText('Рекомендуемый размер: 1290×464'),
+                        ])
+                        ->collapsible(),
                 ])->columnSpan(['lg' => 2]),
 
                 Group::make([
                     Fields::meta(),
+                    Section::make('Раздел')
+                        ->schema([
+                            Select::make('role')
+                                ->hiddenLabel()
+                                ->options(Role::class)
+                                ->default(Role::Teacher->value)
+                                ->selectablePlaceholder(false)
+                                ->required(),
+                        ]),
                     Section::make('Фото')
                         ->schema([
                             Fields::image('photo', 'employees', 'Фото')
@@ -62,9 +89,9 @@ class EmployeeForm
                             Select::make('courses')
                                 ->hiddenLabel()
                                 ->relationship('courses', 'title')
+                                ->getOptionLabelFromRecordUsing(fn ($record) => $record->tr('title', 'ru'))
                                 ->multiple()
-                                ->preload()
-                                ->searchable(),
+                                ->preload(),
                         ]),
                 ])->columnSpan(['lg' => 1]),
             ]);

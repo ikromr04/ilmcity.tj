@@ -20,10 +20,12 @@ class GalleryForm
                 Group::make([
                     Section::make('Альбом')
                         ->schema([
-                            TextInput::make('title')
-                                ->label('Название')
-                                ->required()
-                                ->maxLength(255),
+                            Fields::translations(fn (string $locale, bool $default) => [
+                                TextInput::make("title.{$locale}")
+                                    ->label('Название')
+                                    ->required($default)
+                                    ->maxLength(255),
+                            ]),
                             DatePicker::make('date')
                                 ->label('Дата')
                                 ->native(false)
@@ -32,19 +34,19 @@ class GalleryForm
                         ])
                         ->columns(2),
 
-                    Section::make('Фотографии')
-                        ->description('Первое фото используется как обложка. Порядок меняется перетаскиванием.')
+                    Section::make('Фото и видео')
+                        ->description('Первый файл используется как обложка. Порядок меняется перетаскиванием. Видео — MP4 или WebM.')
                         ->schema([
                             FileUpload::make('images')
                                 ->hiddenLabel()
-                                ->image()
+                                ->acceptedFileTypes(['image/*', 'video/mp4', 'video/webm'])
                                 ->multiple()
                                 ->reorderable()
                                 ->appendFiles()
                                 ->panelLayout('grid')
                                 ->disk('public')
                                 ->directory('galleries')
-                                ->maxSize(10240)
+                                ->maxSize(102400)
                                 ->maxParallelUploads(4),
                         ]),
                 ])->columnSpan(['lg' => 2]),
